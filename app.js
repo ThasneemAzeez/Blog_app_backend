@@ -90,6 +90,32 @@ app.post("/Viewall", async (req, res) => {
     })
 })
 
+//ViewMyPost
+
+app.post("/Viewmypost", async (req, res) => {
+    let input=req.body
+
+    let token = req.headers.token
+    jwt.verify(token, "blogApp", (error, decoded) => {
+        if (decoded && decoded.email) {
+
+            PostModel.find().then(
+                (items) => {
+                    res.json(items)
+                }
+            ).catch(
+                (error) => {
+                    res.json({ "status": "error" })
+
+                }
+            )
+
+        } else {
+            res.json({ "status": "Incorrect password" })
+        }
+    })
+})
+
 //singUP
 app.post("/signUp", async (req, res) => {
 
